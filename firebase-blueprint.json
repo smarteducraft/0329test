@@ -1,0 +1,92 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "사용자 정보 (학생 또는 선생님)",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID"
+        },
+        "name": {
+          "type": "string",
+          "description": "사용자 이름"
+        },
+        "email": {
+          "type": "string",
+          "description": "사용자 이메일"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["student", "teacher"],
+          "description": "사용자 역할"
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "계정 생성 시간"
+        }
+      },
+      "required": ["uid", "name", "email", "role", "createdAt"]
+    },
+    "Diary": {
+      "title": "Diary",
+      "description": "학생이 작성한 마음 일기 및 AI 분석 결과",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "작성자(학생)의 UID"
+        },
+        "studentName": {
+          "type": "string",
+          "description": "작성자(학생)의 이름"
+        },
+        "text": {
+          "type": "string",
+          "description": "일기 원문"
+        },
+        "reply": {
+          "type": "string",
+          "description": "AI 선생님의 공감 답글"
+        },
+        "emotion": {
+          "type": "string",
+          "enum": ["기쁨", "평온", "슬픔", "화남", "불안"],
+          "description": "분류된 감정"
+        },
+        "summary": {
+          "type": "string",
+          "description": "일기 요약"
+        },
+        "moodColor": {
+          "type": "string",
+          "description": "감정에 따른 색상 (Hex)"
+        },
+        "safetyAlert": {
+          "type": "boolean",
+          "description": "위험 감지 여부"
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "작성 시간"
+        }
+      },
+      "required": ["uid", "studentName", "text", "reply", "emotion", "summary", "moodColor", "safetyAlert", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/User"
+      },
+      "description": "사용자 컬렉션"
+    },
+    "/diaries/{diaryId}": {
+      "schema": {
+        "$ref": "#/entities/Diary"
+      },
+      "description": "일기 컬렉션"
+    }
+  }
+}
